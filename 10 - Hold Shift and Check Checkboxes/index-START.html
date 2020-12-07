@@ -96,6 +96,36 @@
   </div>
 
 <script>
+const inbox = document.querySelector('.inbox');
+let first, second;
+
+inbox.addEventListener('click', (e) => {
+  const selected = e.target;
+
+  // find first clicked element
+  if (!e.shiftKey && selected.checked) {
+    first = selected.parentNode;
+  }
+
+  // find second clicked element
+  if (e.shiftKey && selected.checked) {
+    second = selected.parentNode;
+
+    const siblings = getSiblings(first, second, first.parentNode);
+    // get input element for each item
+    siblings.forEach(element => {
+      const checkbox = element.querySelector('input');
+      checkbox.checked = true;
+    });
+  }
+});
+
+function getSiblings(firstElement, lastElement, parent) {
+  const children = [...parent.children];
+  start = children.indexOf(firstElement);
+  end = children.indexOf(lastElement);
+  return (start > end) ? children.splice(end, start - end) : children.splice(start, end);
+}
 </script>
 </body>
 </html>
